@@ -159,11 +159,12 @@ type OutputSpeech struct {
 
 // Card contains the data displayed to the user by the Alexa app.
 type Card struct {
-	Type    string `json:"type"`
-	Title   string `json:"title,omitempty"`
-	Content string `json:"content,omitempty"`
-	Text    string `json:"text,omitempty"`
-	Image   *Image `json:"image,omitempty"`
+	Type        string   `json:"type"`
+	Title       string   `json:"title,omitempty"`
+	Content     string   `json:"content,omitempty"`
+	Text        string   `json:"text,omitempty"`
+	Image       *Image   `json:"image,omitempty"`
+	Permissions []string `json:"permissions,omitempty"`
 }
 
 // Image provides URL(s) to the image to display in resposne to the request.
@@ -299,6 +300,11 @@ func (r *Response) SetStandardCard(title string, text string, smallImageURL stri
 // SetLinkAccountCard creates a new LinkAccount card.
 func (r *Response) SetLinkAccountCard() {
 	r.Card = &Card{Type: "LinkAccount"}
+}
+
+// AskForPermissionsCard requests permission from users
+func (r *Response) AskForPermissionsCard(permissions []string) {
+	r.Card = &Card{Type: "AskForPermissionsConsent", Permissions: permissions}
 }
 
 // SetOutputText sets the OutputSpeech type to text and sets the value specified.
